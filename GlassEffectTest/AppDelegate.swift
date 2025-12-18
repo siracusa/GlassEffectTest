@@ -6,25 +6,46 @@
 //
 
 import Cocoa
+import SwiftUI
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
-
-    @IBOutlet var window: NSWindow!
-
-
+    var window : NSWindow!
+    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
-    }
+        window = NSWindow()
+        window.isOpaque = false
+        window.backgroundColor = .clear
+        window.titleVisibility = .hidden
+        window.titlebarSeparatorStyle = .none
+        window.isMovableByWindowBackground = true
+        window.styleMask = [ .titled, .resizable, .fullSizeContentView ]
 
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
+        let hostingView = NSHostingView(rootView: DemoView())
+        window.contentView = hostingView
+
+        window.center()
+        window.makeKeyAndOrderFront(self)
     }
 
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
         return true
     }
-
-
 }
 
+struct DemoView : View {
+    @State private var material : Glass = .clear
+
+    var body : some View {
+        VStack {
+            Text(material == .clear ? "Clear Glass" : "Regular Glass")
+                .font(.headline)
+
+            Button("Change Material") {
+                material = (material == .clear) ? .regular : .clear
+            }
+        }
+        .frame(width: 400, height: 300)
+        .glassEffect(material, in: Rectangle())
+    }
+}
