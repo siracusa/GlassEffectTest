@@ -13,6 +13,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var window : NSWindow!
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        FB21375029.install()
+        
         window = NSWindow()
         window.isOpaque = false
         window.backgroundColor = .clear
